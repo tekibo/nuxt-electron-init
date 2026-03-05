@@ -1,0 +1,10 @@
+{
+  "main": "electron/main.js",
+  "build": {
+    "appId": "com.tekibo.myscrape",
+    "files": [
+      ".output/**/*",
+      "electron/**/*"
+    ]
+  }
+}
