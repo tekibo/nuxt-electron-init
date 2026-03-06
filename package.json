@@ -1,6 +1,6 @@
 {
   "name": "nuxt-electron-init",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "type": "module",
   "bin": {
     "nuxt-electron-init": "./dist/cli.js"
