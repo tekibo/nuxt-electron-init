@@ -3,7 +3,6 @@
 import { Command } from "commander"
 import fs from "fs-extra"
 import path from "path"
-import { execa } from "execa"
 import { fileURLToPath } from "url"
 
 const __filename = fileURLToPath(import.meta.url)
@@ -59,9 +58,7 @@ program
             { overwrite: false }
         )
 
-        /* Install dependencies */
-
-        console.log("Installing dependencies...")
+        /* Update package.json */
 
         const pm = detectPackageManager()
 
@@ -74,21 +71,6 @@ program
 
         const [cmd, args] = installMap[pm]
 
-        await execa(cmd, [
-            ...args,
-            "electron",
-            "electronmon",
-            "electron-builder",
-            "esbuild",
-            "wait-on",
-            "@types/wait-on",
-            "concurrently"
-        ], { stdio: "inherit" })
-
-        console.log("Electron setup complete.")
-
-        /* Update package.json */
-
         console.log("Updating package.json...")
 
         const pkg = await fs.readJSON("package.json")
@@ -99,13 +81,22 @@ program
 
         pkg.scripts["build:electron"] = "node scripts/build-electron.mjs"
 
-        pkg.scripts.build = `nuxt build && ${pm} run build:electron`
+        pkg.scripts.build = `nuxt build && ${cmd} run build:electron`
 
         pkg.scripts.dev =
             "concurrently \"nuxt dev\" \"node scripts/build-electron.mjs\" \"wait-on http://localhost:3000 dist-electron/main.cjs && electronmon dist-electron/main.cjs\""
 
 
         await fs.writeJSON("package.json", pkg, { spaces: 2 })
+
+        /* Install dependencies */
+
+        console.log("Installing dependencies...")
+
+        console.log("Electron setup complete.")
+        console.log("Run the following command to install dependencies:")
+        console.log(`${pm} ${args} electron electronmon electron-builder esbuild wait-on @types/wait-on concurrently`)
+
     })
 
 program.parse()
