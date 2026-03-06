@@ -30,4 +30,38 @@ contextBridge.exposeInMainWorld("electronAPI", {
   listFiles: (dirPath: string) => ipcRenderer.invoke("fs:listFiles", dirPath),
   mkdir: (dirPath: string) => ipcRenderer.invoke("fs:mkdir", dirPath),
   deleteFile: (filePath: string) => ipcRenderer.invoke("fs:deleteFile", filePath),
+
+  // Shell
+  openExternal: (url: string) => ipcRenderer.invoke("shell:openExternal", url),
+  showItemInFolder: (path: string) => ipcRenderer.invoke("shell:showItemInFolder", path),
+  openPath: (path: string) => ipcRenderer.invoke("shell:openPath", path),
+  trashItem: (path: string) => ipcRenderer.invoke("shell:trashItem", path),
+  beep: () => ipcRenderer.invoke("shell:beep"),
+
+  // Clipboard
+  writeClipboardText: (text: string) => ipcRenderer.invoke("clipboard:writeText", text),
+  readClipboardText: () => ipcRenderer.invoke("clipboard:readText"),
+  writeClipboardHTML: (html: string) => ipcRenderer.invoke("clipboard:writeHTML", html),
+  readClipboardHTML: () => ipcRenderer.invoke("clipboard:readHTML"),
+  clearClipboard: () => ipcRenderer.invoke("clipboard:clear"),
+
+  // Power
+  isOnBattery: () => ipcRenderer.invoke("power:isOnBattery"),
+  onPowerEvent: (event: string, callback: () => void) => {
+    const channel = `power:${event}`;
+    ipcRenderer.on(channel, () => callback());
+  },
+
+  // Screen
+  getCursorScreenPoint: () => ipcRenderer.invoke("screen:getCursorScreenPoint"),
+  getPrimaryDisplay: () => ipcRenderer.invoke("screen:getPrimaryDisplay"),
+  getAllDisplays: () => ipcRenderer.invoke("screen:getAllDisplays"),
+
+  // Notifications
+  showNotification: (options: any) => ipcRenderer.invoke("notification:show", options),
+
+  // Expanded Dialogs
+  showSaveDialog: (options: any) => ipcRenderer.invoke("dialog:showSaveDialog", options),
+  showMessageBox: (options: any) => ipcRenderer.invoke("dialog:showMessageBox", options),
+  showErrorBox: (title: string, content: string) => ipcRenderer.invoke("dialog:showErrorBox", title, content),
 });
