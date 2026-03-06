@@ -44,17 +44,19 @@ program
         const { cmd, args } = await updatePackageJson(options.pm)
 
         /* Finish up */
+        const installCommand = `${cmd} ${args.join(" ")} electron electronmon electron-builder esbuild wait-on @types/wait-on concurrently`;
+
         const finishMessage = `
-${pc.green(pc.bold("✨ Electron setup complete! ✨"))}
+            ${pc.green(pc.bold("✨ Electron setup complete! ✨"))}
 
-${pc.white("Run the following command to install dependencies:")}
+            ${pc.white("Run the following command to install dependencies:")}
 
-  ${pc.cyan(`${cmd} ${args.join(" ")} electron electronmon electron-builder esbuild wait-on @types/wait-on concurrently`)}
+            ${pc.cyan(installCommand)}
 
-${pc.white("Then, run:")}
-  ${pc.cyan(`${cmd} run dev`)} ${pc.gray("- To start the development server")}
-  ${pc.cyan(`${cmd} run build`)} ${pc.gray("- To build your application")}
-`;
+            ${pc.white("Then, run:")}
+            ${pc.cyan(`${cmd} run dev`)} ${pc.gray("- To start the development server")}
+            ${pc.cyan(`${cmd} run build`)} ${pc.gray("- To build your application")}
+            `;
 
         console.log(
             boxen(finishMessage.trim(), {
