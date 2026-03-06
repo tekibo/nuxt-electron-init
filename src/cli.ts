@@ -3,20 +3,13 @@
 import { Command } from "commander"
 import fs from "fs-extra"
 import path from "path"
-import { prompt } from "prompts"
+import prompts from "prompts"
 import { fileURLToPath } from "url"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 type PackageManager = "pnpm" | "bun" | "yarn" | "npm"
-
-function detectPackageManager(): PackageManager {
-    if (fs.existsSync("pnpm-lock.yaml")) return "pnpm"
-    if (fs.existsSync("bun.lock")) return "bun"
-    if (fs.existsSync("yarn.lock")) return "yarn"
-    return "npm"
-}
 
 const program = new Command()
 
@@ -61,14 +54,14 @@ program
 
         await fs.copy(
             path.join(__dirname, "..", "templates", "ELECTRON-USAGE.md"),
-            root,
+            path.join(root, "ELECTRON-USAGE.md"),
             { overwrite: false }
         )
 
         /* Update package.json */
 
         /* Select project manager */
-        const pm = await prompt({
+        const response = await prompts({
             type: "select",
             name: "pm",
             message: "Select a project manager",
@@ -78,7 +71,14 @@ program
                 { title: "yarn", value: "yarn" },
                 { title: "bun", value: "bun" },
             ],
-        }) as { pm: PackageManager }
+        })
+
+        if (!response.pm) {
+            console.log("Operation cancelled.")
+            process.exit(0)
+        }
+
+        const pm = response.pm as PackageManager
 
         const installMap: Record<PackageManager, [string, string[]]> = {
             pnpm: ["pnpm", ["add", "-D"]],
@@ -87,7 +87,7 @@ program
             bun: ["bun", ["add", "-d"]],
         }
 
-        const [cmd, args] = installMap[pm.pm]
+        const [cmd, args] = installMap[pm]
 
         console.log("Updating package.json...")
 
@@ -113,7 +113,7 @@ program
 
         console.log("Electron setup complete.")
         console.log("Run the following command to install dependencies:")
-        console.log(`${pm} ${args} electron electronmon electron-builder esbuild wait-on @types/wait-on concurrently`)
+        console.log(`${pm} ${args.join(" ")} electron electronmon electron-builder esbuild wait-on @types/wait-on concurrently`)
 
     })
 
