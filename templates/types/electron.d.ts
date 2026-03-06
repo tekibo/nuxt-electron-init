@@ -1,3 +1,4 @@
+/* eslint-disable ts/consistent-type-definitions */
 export { };
 
 declare global {
@@ -9,6 +10,10 @@ declare global {
       closeWindow: () => void;
       isMaximized: () => Promise<boolean>;
       onMaximizeChange: (cb: (state: boolean) => void) => void;
+
+      // Context Menu
+      showContextMenu: (items?: Electron.MenuItemConstructorOptions[]) => void;
+      onContextMenuClick: (callback: (id: string) => void) => void;
 
       // Dialogs
       openFile: (options?: Electron.OpenDialogOptions) => Promise<string | null>;
@@ -59,7 +64,7 @@ declare global {
 
       // Power
       isOnBattery: () => Promise<boolean>;
-      onPowerEvent: (event: 'suspend' | 'resume' | 'on-ac' | 'on-battery', callback: () => void) => void;
+      onPowerEvent: (event: "suspend" | "resume" | "on-ac" | "on-battery", callback: () => void) => void;
 
       // Screen
       getCursorScreenPoint: () => Promise<{ x: number; y: number }>;
@@ -67,7 +72,7 @@ declare global {
       getAllDisplays: () => Promise<Electron.Display[]>;
 
       // Notifications
-      showNotification: (options: Electron.NotificationConstructorOptions) => Promise<'click' | 'close'>;
+      showNotification: (options: Electron.NotificationConstructorOptions) => Promise<"click" | "close">;
     };
   }
 
@@ -78,7 +83,7 @@ declare global {
       defaultPath?: string;
       buttonLabel?: string;
       filters?: FileFilter[];
-      properties?: Array<'openFile' | 'openDirectory' | 'multiSelections' | 'showHiddenFiles' | 'createDirectory' | 'promptToCreate' | 'noResolveAliases' | 'treatPackageAsDirectory' | 'dontAddToRecent'>;
+      properties?: Array<"openFile" | "openDirectory" | "multiSelections" | "showHiddenFiles" | "createDirectory" | "promptToCreate" | "noResolveAliases" | "treatPackageAsDirectory" | "dontAddToRecent">;
       message?: string;
     }
 
@@ -98,7 +103,7 @@ declare global {
     }
 
     interface MessageBoxOptions {
-      type?: 'none' | 'info' | 'error' | 'question' | 'warning';
+      type?: "none" | "info" | "error" | "question" | "warning";
       buttons?: string[];
       defaultId?: number;
       title?: string;
@@ -144,7 +149,20 @@ declare global {
       hasReply?: boolean;
       replyPlaceholder?: string;
       sound?: string;
-      urgency?: 'normal' | 'critical' | 'low';
+      urgency?: "normal" | "critical" | "low";
+    }
+
+    interface MenuItemConstructorOptions {
+      id?: string;
+      label?: string;
+      sublabel?: string;
+      toolTip?: string;
+      type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+      role?: string;
+      enabled?: boolean;
+      visible?: boolean;
+      checked?: boolean;
+      click?: (...args: any[]) => void;
     }
   }
 }

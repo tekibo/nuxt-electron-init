@@ -9,6 +9,13 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onMaximizeChange: (callback: (state: boolean) => void) =>
     ipcRenderer.on("window:maximized", (_, state) => callback(state)),
 
+  // Context Menu
+  showContextMenu: (items?: any[]) => ipcRenderer.send("context-menu", items),
+  onContextMenuClick: (callback: (id: string) => void) => {
+    ipcRenderer.removeAllListeners("context-menu-click");
+    ipcRenderer.on("context-menu-click", (_event, id) => callback(id));
+  },
+
   // Dialogs
   openFile: () => ipcRenderer.invoke("dialog:openFile"),
   openFolder: () => ipcRenderer.invoke("dialog:openFolder"),
