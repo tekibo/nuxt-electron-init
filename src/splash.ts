@@ -1,27 +1,27 @@
 export function getSplashHtmlTemplate(options: { appName: string; appDescription: string; templateType: string; color: string }) {
-    const { appName, appDescription, templateType, color } = options;
+  const { appName, appDescription, templateType, color } = options;
 
-    let bodyStyles = '';
-    let containerStyles = '';
-    let headerStyles = '';
-    let textStyles = '';
-    let loaderStyles = '';
+  let bodyStyles = '';
+  let containerStyles = '';
+  let headerStyles = '';
+  let textStyles = '';
+  let loaderStyles = '';
 
-    if (templateType === 'gradient') {
-        bodyStyles = `background-color: #0f172a; color: white;`;
-        containerStyles = ``;
-        headerStyles = `background: linear-gradient(to right, ${color}, #ffffff); -webkit-background-clip: text; background-clip: text; color: transparent;`;
-        textStyles = `color: #94a3b8;`;
-        loaderStyles = `border-color: rgba(255, 255, 255, 0.1); border-top-color: ${color};`;
-    } else if (templateType === 'solid') {
-        bodyStyles = `background-color: #ffffff; color: #1f2937;`;
-        containerStyles = ``;
-        headerStyles = `color: ${color};`;
-        textStyles = `color: #6b7280;`;
-        loaderStyles = `border-color: rgba(0, 0, 0, 0.1); border-top-color: ${color};`;
-    } else if (templateType === 'glass') {
-        bodyStyles = `background: linear-gradient(135deg, ${color}33 0%, #0f172a 100%); color: white;`;
-        containerStyles = `
+  if (templateType === 'gradient') {
+    bodyStyles = `background-color: #0f172a; color: white;`;
+    containerStyles = ``;
+    headerStyles = `background: linear-gradient(to right, ${color}, #ffffff); -webkit-background-clip: text; background-clip: text; color: transparent;`;
+    textStyles = `color: #94a3b8;`;
+    loaderStyles = `border-color: rgba(255, 255, 255, 0.1); border-top-color: ${color};`;
+  } else if (templateType === 'solid') {
+    bodyStyles = `background-color: #ffffff; color: #1f2937;`;
+    containerStyles = ``;
+    headerStyles = `color: ${color};`;
+    textStyles = `color: #6b7280;`;
+    loaderStyles = `border-color: rgba(0, 0, 0, 0.1); border-top-color: ${color};`;
+  } else if (templateType === 'glass') {
+    bodyStyles = `background: linear-gradient(135deg, ${color}33 0%, #0f172a 100%); color: white;`;
+    containerStyles = `
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -30,12 +30,12 @@ export function getSplashHtmlTemplate(options: { appName: string; appDescription
             border-radius: 1.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         `;
-        headerStyles = `color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.2);`;
-        textStyles = `color: #e2e8f0;`;
-        loaderStyles = `border-color: rgba(255, 255, 255, 0.1); border-top-color: ${color};`;
-    }
+    headerStyles = `color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.2);`;
+    textStyles = `color: #e2e8f0;`;
+    loaderStyles = `border-color: rgba(255, 255, 255, 0.1); border-top-color: ${color};`;
+  }
 
-    return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">

@@ -6,6 +6,7 @@ import path from "path"
 import { fileURLToPath } from "url"
 import pc from "picocolors"
 import boxen from "boxen"
+import CFonts from "cfonts"
 
 import { askQuestions } from "./prompts.js"
 import { setupElectron } from "./setup.js"
@@ -21,6 +22,22 @@ program
     .name("nuxt-electron-init")
     .description("Setup Electron for an existing Nuxt 4 project")
     .action(async () => {
+        CFonts.say("NUXT|ELECTRON|INIT", {
+            font: "block",
+            align: "left",
+            colors: ["system"],
+            background: "transparent",
+            letterSpacing: 1,
+            lineHeight: 1,
+            space: true,
+            maxLength: "0",
+            gradient: ["blue", "cyan"],
+            independentGradient: true,
+            transitionGradient: false,
+            env: "node",
+        })
+
+        console.log(pc.white(pc.bold("\n  Welcome to the Nuxt Electron CLI initializer by " + pc.cyan("TEKIBO") + "!\n")))
 
         const root = process.cwd()
 
@@ -56,6 +73,8 @@ program
             ${pc.white("Then, run:")}
             ${pc.cyan(`${cmd} run dev`)} ${pc.gray("- To start the development server")}
             ${pc.cyan(`${cmd} run build`)} ${pc.gray("- To build your application")}
+
+            ${pc.dim("Developed with ❤️ by TEKIBO")}
             `;
 
         console.log(
