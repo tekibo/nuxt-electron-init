@@ -3,6 +3,7 @@
 import { Command } from "commander"
 import fs from "fs-extra"
 import path from "path"
+import { prompt } from "prompts"
 import { fileURLToPath } from "url"
 
 const __filename = fileURLToPath(import.meta.url)
@@ -58,9 +59,26 @@ program
             { overwrite: false }
         )
 
+        await fs.copy(
+            path.join(__dirname, "..", "templates", "ELECTRON-USAGE.md"),
+            root,
+            { overwrite: false }
+        )
+
         /* Update package.json */
 
-        const pm = detectPackageManager()
+        /* Select project manager */
+        const pm = await prompt({
+            type: "select",
+            name: "pm",
+            message: "Select a project manager",
+            choices: [
+                { title: "pnpm", value: "pnpm" },
+                { title: "npm", value: "npm" },
+                { title: "yarn", value: "yarn" },
+                { title: "bun", value: "bun" },
+            ],
+        }) as { pm: PackageManager }
 
         const installMap: Record<PackageManager, [string, string[]]> = {
             pnpm: ["pnpm", ["add", "-D"]],
@@ -69,7 +87,7 @@ program
             bun: ["bun", ["add", "-d"]],
         }
 
-        const [cmd, args] = installMap[pm]
+        const [cmd, args] = installMap[pm.pm]
 
         console.log("Updating package.json...")
 
