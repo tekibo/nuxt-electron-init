@@ -22,18 +22,13 @@ program
     .name("nuxt-electron-init")
     .description("Setup Electron for an existing Nuxt 4 project")
     .action(async () => {
-        CFonts.say("NUXT|ELECTRON|INIT", {
+        CFonts.say("NUXT-ELECTRON", {
             font: "block",
             align: "left",
             colors: ["system"],
             background: "transparent",
-            letterSpacing: 1,
-            lineHeight: 1,
             space: true,
             maxLength: "0",
-            gradient: ["blue", "cyan"],
-            independentGradient: true,
-            transitionGradient: false,
             env: "node",
         })
 
